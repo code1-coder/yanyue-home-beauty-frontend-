@@ -55,7 +55,9 @@
 │   ├── consumer/             # 消费者端文档型骨架
 │   │   ├── {README,AGENTS,ARCHITECTURE}.md
 │   │   └── {pages,features,shared,platform}/README.md
-│   ├── provider/{README,AGENTS}.md  # 服务者端入口与约束
+│   ├── provider/             # 服务者端文档型骨架
+│   │   ├── {README,AGENTS,ARCHITECTURE}.md
+│   │   └── {pages,features,shared,platform}/README.md
 │   └── admin/{README,AGENTS}.md     # 管理后台入口与约束
 └── docs/
     ├── README.md            # 文档索引
