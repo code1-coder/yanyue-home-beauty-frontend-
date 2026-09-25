@@ -8,15 +8,17 @@
 
 平台采用自营与担保交易模式，连接消费者、美容师（服务者）及运营管理者，覆盖预约支付、服务履约、审核、抽成结算和提现。当前仓库已建立三端目录入口，但**只有文档，没有可运行的前端、后台或接口实现**。
 
-| 终端 | 技术栈（按原始 PRD） | 入口 | 端目录 | 拆分文档 |
+| 终端 | 当前批准技术栈与交付平台 | 入口 | 端目录 | 拆分文档 |
 | --- | --- | --- | --- | --- |
-| 消费者端 | HBuilderX + uni-app + uView | 首页 / 发现 / 我的 | [apps/consumer](apps/consumer/README.md) | [需求](docs/consumer/需求.md) · [原型](docs/consumer/原型.md) · [接口能力](docs/consumer/接口清单.md) |
-| 服务者端 | HBuilderX + uni-app + uView | 工作台 / 订单 / 商城 / 我的 | [apps/provider](apps/provider/README.md) | [需求](docs/provider/需求.md) · [原型](docs/provider/原型.md) · [接口能力](docs/provider/接口清单.md) |
-| 管理后台 | Vue + Element UI | 工作台 / 审核中心 / 业务 / 财务 / 系统 | [apps/admin](apps/admin/README.md) | [需求](docs/admin/需求.md) · [原型](docs/admin/原型.md) · [接口能力](docs/admin/接口清单.md) |
+| 消费者端 | 微信小程序：HBuilderX + uni-app Vue 3 + uview-plus | 首页 / 发现 / 我的 | [apps/consumer](apps/consumer/README.md) | [需求](docs/consumer/需求.md) · [原型](docs/consumer/原型.md) · [接口能力](docs/consumer/接口清单.md) |
+| 服务者端 | 微信小程序：HBuilderX + uni-app Vue 3 + uview-plus | 工作台 / 订单 / 商城 / 我的 | [apps/provider](apps/provider/README.md) | [需求](docs/provider/需求.md) · [原型](docs/provider/原型.md) · [接口能力](docs/provider/接口清单.md) |
+| 管理后台 | Web：Vue 3 + Element Plus | 工作台 / 审核中心 / 业务 / 财务 / 系统 | [apps/admin](apps/admin/README.md) | [需求](docs/admin/需求.md) · [原型](docs/admin/原型.md) · [接口能力](docs/admin/接口清单.md) |
+
+**技术选型与仓库结构**：[三端工程规划](docs/技术选型与仓库结构.md)。当前优先规划两个独立微信小程序与 Web 后台；这不删减原始产品范围，尚无项目依赖清单或可运行工程。
 
 **文档索引**：[docs/README.md](docs/README.md)。**共通业务规则**：[业务规则与跨端流程](docs/common/业务规则与跨端流程.md)（抽成、排班、支付结算、提现、状态机、非功能要求及页面流转）。
 
-**原始资料**：[服务产品需求文档（PRD）.md](docs/服务产品需求文档（PRD）.md)（V1.0，2026-09-24，草案）与[原型整体结构.md](docs/原型整体结构.md)。拆分文件保留各端需求与原型原文；接口清单是从原文功能拆出的待设计能力，不是已发布接口文档。发生冲突时先查原始资料并记录待决策事项，不要默默更改业务规则。
+**原始资料**：[服务产品需求文档（PRD）.md](docs/服务产品需求文档（PRD）.md)（V1.0，2026-09-24，草案）与[原型整体结构.md](docs/原型整体结构.md)。拆分文件保留各端需求与原型原文；接口清单是从原文功能拆出的待设计能力，不是已发布接口文档。产品功能、页面及优先级以原始资料为准；当前技术规划不覆盖原始微信/支付宝支付 P0 或 App 兼容要求，平台适配和交付边界须另行确认。
 
 ## 业务主线
 
@@ -35,6 +37,7 @@
 - 消息：消费者/服务者需求列为 P0，但原型将消息列入第二阶段。
 - 商城：服务者需求为 P1，原型安排第二阶段；商城 TabBar 是否首期保留需确认。
 - 系统配置：后台角色权限与财务规则标为 P0，而原型称第三阶段“系统精细化”，应明确哪些设置必须在首期上线。
+- 当前先规划微信小程序工程，原始 PRD 同时要求 iOS/Android 兼容及微信/支付宝支付 P0；如何满足完整产品范围和分阶段交付须产品负责人确认，不擅自更改支付渠道或优先级。
 - 优惠分摊、退款抽成冲正、拒单对排序的影响、超服务半径提示、支付/提现回调与对账方案，仍需业务确认。
 
 接口能力表不定义 HTTP 路径、参数、返回值、错误码与认证机制；实施前需另行确认正式接口契约、版本、第三方支付和短信接入。
@@ -49,13 +52,16 @@
 ├── agent.md                 # 项目协作约定
 ├── AGENTS.md                # 代理入口
 ├── apps/                    # 三端入口（目前均为文档，无可运行工程）
-│   ├── consumer/{README,AGENTS}.md  # 消费者端入口与约束
+│   ├── consumer/             # 消费者端文档型骨架
+│   │   ├── {README,AGENTS,ARCHITECTURE}.md
+│   │   └── {pages,features,shared,platform}/README.md
 │   ├── provider/{README,AGENTS}.md  # 服务者端入口与约束
 │   └── admin/{README,AGENTS}.md     # 管理后台入口与约束
 └── docs/
     ├── README.md            # 文档索引
     ├── 服务产品需求文档（PRD）.md  # 原始需求，不改动
     ├── 原型整体结构.md        # 原始原型，不改动
+    ├── 技术选型与仓库结构.md  # 三端技术方向及目录约定
     ├── common/业务规则与跨端流程.md
     ├── consumer/{需求,原型,接口清单}.md
     ├── provider/{需求,原型,接口清单}.md
