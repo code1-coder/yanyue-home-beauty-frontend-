@@ -2,17 +2,15 @@
 
 > 上门美容服务平台 · 三端目录与产品文档仓库（草案）
 
-> 建议 GitHub 仓库名：`yanyue-home-beauty`。名称仅为项目提案，公开发布前请核对品牌/商标可用性。
-
 ## 项目概览
 
 平台采用自营与担保交易模式，连接消费者、美容师（服务者）及运营管理者，覆盖预约支付、服务履约、审核、抽成结算和提现。当前仓库已建立三端目录入口，但**只有文档，没有可运行的前端、后台或接口实现**。
 
-| 终端 | 当前批准技术栈与交付平台 | 入口 | 端目录 | 拆分文档 |
-| --- | --- | --- | --- | --- |
-| 消费者端 | 微信小程序：HBuilderX + uni-app Vue 3 + uview-plus | 首页 / 发现 / 我的 | [apps/consumer](apps/consumer/README.md) | [需求](docs/consumer/需求.md) · [原型](docs/consumer/原型.md) · [接口能力](docs/consumer/接口清单.md) |
-| 服务者端 | 微信小程序：HBuilderX + uni-app Vue 3 + uview-plus | 工作台 / 订单 / 商城 / 我的 | [apps/provider](apps/provider/README.md) | [需求](docs/provider/需求.md) · [原型](docs/provider/原型.md) · [接口能力](docs/provider/接口清单.md) |
-| 管理后台 | Web：Vue 3 + Element Plus | 工作台 / 审核中心 / 业务 / 财务 / 系统 | [apps/admin](apps/admin/README.md) | [需求](docs/admin/需求.md) · [原型](docs/admin/原型.md) · [接口能力](docs/admin/接口清单.md) |
+| 终端     | 当前批准技术栈与交付平台                           | 入口                                   | 端目录                                   | 拆分文档                                                                                              |
+| -------- | -------------------------------------------------- | -------------------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| 消费者端 | 微信小程序：HBuilderX + uni-app Vue 3 + uview-plus | 首页 / 发现 / 我的                     | [apps/consumer](apps/consumer/README.md) | [需求](docs/consumer/需求.md) · [原型](docs/consumer/原型.md) · [接口能力](docs/consumer/接口清单.md) |
+| 服务者端 | 微信小程序：HBuilderX + uni-app Vue 3 + uview-plus | 工作台 / 订单 / 商城 / 我的            | [apps/provider](apps/provider/README.md) | [需求](docs/provider/需求.md) · [原型](docs/provider/原型.md) · [接口能力](docs/provider/接口清单.md) |
+| 管理后台 | Web：Vue 3 + Element Plus                          | 工作台 / 审核中心 / 业务 / 财务 / 系统 | [apps/admin](apps/admin/README.md)       | [需求](docs/admin/需求.md) · [原型](docs/admin/原型.md) · [接口能力](docs/admin/接口清单.md)          |
 
 **技术选型与仓库结构**：[三端工程规划](docs/技术选型与仓库结构.md)。当前优先规划两个独立微信小程序与 Web 后台；这不删减原始产品范围，尚无项目依赖清单或可运行工程。
 
@@ -58,7 +56,9 @@
 │   ├── provider/             # 服务者端文档型骨架
 │   │   ├── {README,AGENTS,ARCHITECTURE}.md
 │   │   └── {pages,features,shared,platform}/README.md
-│   └── admin/{README,AGENTS}.md     # 管理后台入口与约束
+│   └── admin/                # 管理后台文档型骨架
+│       ├── {README,AGENTS,ARCHITECTURE}.md
+│       └── {app,pages,features,shared,platform}/README.md
 └── docs/
     ├── README.md            # 文档索引
     ├── 服务产品需求文档（PRD）.md  # 原始需求，不改动
