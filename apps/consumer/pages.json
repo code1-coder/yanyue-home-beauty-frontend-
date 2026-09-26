@@ -38,12 +38,12 @@
   },
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarBackgroundColor": "#fbf8f7",
-    "backgroundColor": "#fbf8f7"
+    "navigationBarBackgroundColor": "#faf7f7",
+    "backgroundColor": "#faf7f7"
   },
   "tabBar": {
-    "color": "#66716d",
-    "selectedColor": "#cf5c6e",
+    "color": "#999999",
+    "selectedColor": "#d9a4a4",
     "backgroundColor": "#ffffff",
     "list": [
       { "pagePath": "pages/index/index", "text": "首页" },
