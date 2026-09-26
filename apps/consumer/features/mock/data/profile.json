@@ -1,0 +1,15 @@
+{
+  "profile": { "nickname": "体验用户", "balanceLabel": "--" },
+  "addresses": [
+    { "id": "a1", "name": "体验用户", "phone": "13800000000", "city": "杭州", "detail": "西湖区文三路（示例地址）", "isDefault": true }
+  ],
+  "messages": [
+    { "id": "m1", "type": "系统", "title": "欢迎体验", "body": "当前为本地模拟数据，不产生真实订单。" }
+  ],
+  "coupons": [],
+  "discover": [
+    { "id": "d1", "title": "把护理安排在家，也能拥有松弛时刻", "body": "从清洁、保湿到舒缓，按自己的节奏享受一次居家护理。", "likes": 12, "favorites": 3, "comments": 1 },
+    { "id": "d2", "title": "第一次约上门美容，先看这份准备清单", "body": "留出合适的服务空间，提前说明肤质与需要留意的情况。", "likes": 8, "favorites": 5, "comments": 2 },
+    { "id": "d3", "title": "忙碌一周之后，给肩颈一点放松时间", "body": "让护理时间更适合自己，也记得与美容师沟通舒适力度。", "likes": 16, "favorites": 4, "comments": 3 }
+  ]
+}
