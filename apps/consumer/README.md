@@ -6,6 +6,8 @@
 
 三端技术方向与目录约定见[技术选型与仓库结构](../../docs/技术选型与仓库结构.md)；依赖固定在 [package.json](package.json) 和 [package-lock.json](package-lock.json)。
 
+已实现的演示范围与未接入能力见[消费者端完成情况](../../docs/consumer/完成情况.md)；28 个页面路径已注册，但不代表 28 页的业务功能全部完成。
+
 ## 本地验证
 
 在本目录执行 `npm ci`、`npm run typecheck`、`npm test`、`npm run build:mp-weixin`。构建输出在 `dist/build/mp-weixin`，可用微信开发者工具导入；`manifest.json` 的 `touristappid` 只供本地预览，真机和提审需要项目自己的小程序 AppID。开发监听可用 `npm run dev:mp-weixin`。当前仅完成 CLI 构建及类型/单元测试，尚未验证真机和 HBuilderX 打开效果。
