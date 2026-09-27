@@ -1,0 +1,36 @@
+{
+  "pages": [
+    { "path": "pages/workbench/index", "style": { "navigationBarTitleText": "工作台" } },
+    { "path": "pages/order/list", "style": { "navigationBarTitleText": "服务订单" } },
+    { "path": "pages/mall/list", "style": { "navigationBarTitleText": "工具商城" } },
+    { "path": "pages/mine/index", "style": { "navigationBarTitleText": "我的" } },
+    { "path": "pages/login", "style": { "navigationBarTitleText": "登录" } },
+    { "path": "pages/join/apply", "style": { "navigationBarTitleText": "入驻申请" } },
+    { "path": "pages/join/status", "style": { "navigationBarTitleText": "审核状态" } },
+    { "path": "pages/schedule/index", "style": { "navigationBarTitleText": "排班管理" } },
+    { "path": "pages/schedule/buffer", "style": { "navigationBarTitleText": "缓冲设置" } },
+    { "path": "pages/schedule/leave", "style": { "navigationBarTitleText": "请假与暂停" } },
+    { "path": "pages/project/mine", "style": { "navigationBarTitleText": "我的项目" } },
+    { "path": "pages/order/detail", "style": { "navigationBarTitleText": "订单详情" } },
+    { "path": "pages/order/upload", "style": { "navigationBarTitleText": "服务凭证" } },
+    { "path": "pages/mall/detail", "style": { "navigationBarTitleText": "商品详情" } },
+    { "path": "pages/mall/confirm", "style": { "navigationBarTitleText": "确认购买" } },
+    { "path": "pages/mall/order/list", "style": { "navigationBarTitleText": "商城订单" } },
+    { "path": "pages/mall/order/detail", "style": { "navigationBarTitleText": "商城订单详情" } },
+    { "path": "pages/mine/profile", "style": { "navigationBarTitleText": "个人资料" } },
+    { "path": "pages/mine/qualification", "style": { "navigationBarTitleText": "资质管理" } },
+    { "path": "pages/mine/service", "style": { "navigationBarTitleText": "服务设置" } },
+    { "path": "pages/income/index", "style": { "navigationBarTitleText": "收益中心" } },
+    { "path": "pages/withdraw/index", "style": { "navigationBarTitleText": "提现" } },
+    { "path": "pages/withdraw/list", "style": { "navigationBarTitleText": "提现记录" } },
+    { "path": "pages/bank/index", "style": { "navigationBarTitleText": "收款账户" } },
+    { "path": "pages/comment/list", "style": { "navigationBarTitleText": "评价管理" } },
+    { "path": "pages/message/list", "style": { "navigationBarTitleText": "消息中心" } },
+    { "path": "pages/mine/setting", "style": { "navigationBarTitleText": "设置" } }
+  ],
+  "easycom": { "autoscan": true, "custom": { "^u-(.*)": "uview-plus/components/u-$1/u-$1.vue", "^up-(.*)": "uview-plus/components/u-$1/u-$1.vue" } },
+  "globalStyle": { "navigationBarTextStyle": "black", "navigationBarBackgroundColor": "#F9F7F3", "backgroundColor": "#F9F7F3" },
+  "tabBar": { "color": "#9AA39E", "selectedColor": "#386C5D", "backgroundColor": "#FFFFFF", "list": [
+    { "pagePath": "pages/workbench/index", "text": "工作台" }, { "pagePath": "pages/order/list", "text": "订单" }, { "pagePath": "pages/mall/list", "text": "商城" }, { "pagePath": "pages/mine/index", "text": "我的" }
+  ] }
+}

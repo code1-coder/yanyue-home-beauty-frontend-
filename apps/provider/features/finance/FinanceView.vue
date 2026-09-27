@@ -1,0 +1,32 @@
+<script setup lang="ts">
+import { computed, onMounted, reactive, shallowRef, watch } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
+import { services } from '../services'
+import type { PayoutAccount, Wallet, Withdrawal } from '../types'
+import { go, inputValue, run } from '../../shared/navigation'
+import DemoBanner from '../../shared/components/DemoBanner.vue'
+const props = defineProps<{ mode: 'income' | 'withdraw' | 'records' | 'accounts' }>()
+const wallet = shallowRef<Wallet>(), records = shallowRef<Withdrawal[]>([]), accounts = shallowRef<PayoutAccount[]>([]), amount = shallowRef(''), accountId = shallowRef(''), quote = shallowRef({ fee: 0, net: 0 })
+const account = reactive<PayoutAccount>({ id: '', type: '银行卡', name: '', masked: '', isDefault: false })
+const selected = computed(() => accounts.value.find(a => a.id === accountId.value))
+async function refresh() { wallet.value = await services.finance.wallet(); records.value = await services.finance.withdrawals(); accounts.value = await services.finance.accounts(); accountId.value ||= accounts.value.find(a => a.isDefault)?.id || '' }
+onShow(refresh)
+onMounted(refresh)
+watch(amount, async value => { quote.value = await services.finance.quote(Number(value) || 0) })
+async function withdraw() { if (await run(() => services.finance.withdraw(Number(amount.value), accountId.value), '提现申请已提交，等待平台审核')) { amount.value = ''; refresh(); go('pages/withdraw/list') } }
+async function saveAccount() { if (await run(() => services.finance.saveAccount({ ...account, id: account.id || `A-${Date.now()}`, isDefault: !accounts.value.length }), '账户已保存')) { account.name = ''; account.masked = ''; refresh() } }
+</script>
+<template><view class="screen"><DemoBanner />
+  <template v-if="mode === 'income'"><view class="wallet-stats"><view class="wallet-stat"><text class="muted">可提现余额</text><text class="money">¥{{ wallet?.available ?? 0 }}</text></view><view class="wallet-stat"><text class="muted">待结算</text><text class="money">¥{{ wallet?.pending ?? 0 }}</text></view><view class="wallet-stat"><text class="muted">累计收入</text><text class="money">¥{{ wallet?.total ?? 0 }}</text></view></view><text class="section-title">收入明细</text><view v-for="item in wallet?.entries" :key="item.id" class="panel row"><view class="entry-copy"><text>{{ item.title }}</text><text class="muted">{{ item.date }} · {{ item.kind }}</text></view><text :class="item.amount > 0 ? 'money' : 'deduction'">{{ item.amount > 0 ? '+' : '' }}¥{{ item.amount }}</text></view><text class="muted">抽成比例为订单创建时快照；优惠分摊和退款冲正待正式口径。</text><button class="action" :disabled="!wallet || wallet.available <= 1" @click="go('pages/withdraw/index')">去提现</button><text v-if="!wallet || wallet.available <= 1" class="muted hint">余额不足 1 元，暂无法提现</text></template>
+  <template v-else-if="mode === 'withdraw'"><view class="hero"><text class="hero-sub">可提现余额</text><text class="hero-title money">¥{{ wallet?.available ?? 0 }}</text></view><view class="panel quote"><label class="field">提现金额（元）<input v-model="amount" type="digit" placeholder="请输入提现金额"/></label><view class="row"><text>手续费试算</text><text>¥{{ quote.fee }}</text></view><view class="row"><text>预计到账</text><text class="money net">¥{{ quote.net }}</text></view><text class="muted">演示按 1% 展示，正式费率/最低手续费由服务端试算。</text></view><view class="panel"><view class="row"><text>到账账户</text><text class="link" @click="go('pages/bank/index')">管理账户 ›</text></view><picker :range="accounts.map(item => `${item.type} ${item.masked}`)" :value="Math.max(0, accounts.findIndex(item => item.id === accountId))" @change="accountId = accounts[Number(inputValue($event))]?.id || accountId"><view class="account-select">{{ selected ? `${selected.type} ${selected.masked}` : '请选择到账账户' }} <text>⌄</text></view></picker><text class="muted">{{ selected?.name || '请先绑定账户' }}</text></view><button class="action" :disabled="!wallet || wallet.available <= 1 || !accountId" @click="withdraw">提交提现申请</button><button class="secondary" @click="go('pages/withdraw/list')">提现记录</button><text class="muted">余额须严格大于 1 元；提交后需平台审核及打款。</text></template>
+  <template v-else-if="mode === 'records'"><view v-for="item in records" :key="item.id" class="panel stack"><view class="row"><text class="money">¥{{ item.amount }}</text><text class="tag">{{ item.status }}</text></view><text class="muted">手续费 ¥{{ item.fee }} · 预计到账 ¥{{ item.net }}</text><text class="muted">{{ item.createdAt.slice(0, 16).replace('T', ' ') }}</text><text v-if="item.reason" class="danger">{{ item.reason }}</text></view><view v-if="!records.length" class="empty">暂无提现记录</view></template>
+  <template v-else><view v-for="item in accounts" :key="item.id" class="panel row"><view class="stack"><text>{{ item.type }} · {{ item.masked }}</text><text class="muted">{{ item.name }} {{ item.isDefault ? '· 默认账户' : '' }}</text></view><button v-if="!item.isDefault" size="mini" @click="run(() => services.finance.setDefault(item.id)).then(refresh)">设为默认</button></view><text class="section-title">绑定收款账户</text><view class="panel"><view class="chips"><view v-for="type in ['银行卡','支付宝','微信']" :key="type" class="chip" :class="{ active: account.type === type }" @click="account.type = type as PayoutAccount['type']">{{ type }}</view></view><label class="field">账户姓名<input v-model="account.name" placeholder="演示姓名"/></label><label class="field">账户标识<input v-model="account.masked" placeholder="仅填演示尾号或标识"/></label></view><button class="action" @click="saveAccount">绑定账户</button><text class="muted">请勿输入真实银行卡或支付账户信息。</text></template>
+</view></template>
+<style scoped>
+.wallet-stats { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12rpx; }
+.wallet-stat { min-width: 0; display: flex; flex-direction: column; gap: 12rpx; background: #FFFFFF; border: 1rpx solid #EEF0EB; border-radius: 32rpx; padding: 24rpx 16rpx; box-shadow: 0 4rpx 20rpx rgba(65,100,87,.07); }
+.wallet-stat .money { display: block; min-width: 0; font-size: 30rpx; line-height: 1.3; overflow-wrap: anywhere; color: #386C5D; font-variant-numeric: tabular-nums; }
+.entry-copy { min-width: 0; display: flex; flex-direction: column; gap: 8rpx; }.deduction { color: #999; font-weight: 600; }
+.hint { display: block; text-align: center; margin-top: 16rpx; }.quote { display: flex; flex-direction: column; gap: 24rpx; }.net { font-size: 36rpx; }
+.account-select { box-sizing: border-box; min-height: 80rpx; margin: 24rpx 0 12rpx; padding: 18rpx 24rpx; border: 1rpx solid #E2E9E6; border-radius: 24rpx; display: flex; align-items: center; justify-content: space-between; }
+</style>

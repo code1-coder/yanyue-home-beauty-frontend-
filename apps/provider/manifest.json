@@ -1,0 +1,20 @@
+{
+    "name" : "颜约到家-服务者端",
+    "appid" : "__UNI__YANYUE_PROVIDER",
+    "description" : "服务者微信小程序（JSON 模拟数据）",
+    "versionName" : "0.1.0",
+    "versionCode" : "100",
+    "transformPx" : false,
+    "uniStatistics" : {
+        "enable" : false
+    },
+    "mp-weixin" : {
+        "appid" : "wx31b31b373d74f713",
+        "setting" : {
+            "urlCheck" : false,
+            "es6" : true
+        }
+    },
+    "vueVersion" : "3",
+    "fallbackLocale" : "en"
+}
