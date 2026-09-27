@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2020", "DOM"],
+    "strict": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "types": ["@dcloudio/types", "vite/client", "vitest/globals"]
+  },
+  "include": ["**/*.ts", "**/*.vue", "**/*.json"],
+  "exclude": ["node_modules", "dist", "unpackage"]
+}

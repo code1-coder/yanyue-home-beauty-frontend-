@@ -1,0 +1,54 @@
+{
+  "pages": [
+    { "path": "pages/index/index", "style": { "navigationBarTitleText": "颜约到家" } },
+    { "path": "pages/discover/index", "style": { "navigationBarTitleText": "发现" } },
+    { "path": "pages/mine/index", "style": { "navigationBarTitleText": "我的" } },
+    { "path": "pages/launch", "style": { "navigationBarTitleText": "欢迎" } },
+    { "path": "pages/login", "style": { "navigationBarTitleText": "登录" } },
+    { "path": "pages/location", "style": { "navigationBarTitleText": "选择位置" } },
+    { "path": "pages/search", "style": { "navigationBarTitleText": "搜索" } },
+    { "path": "pages/project/list", "style": { "navigationBarTitleText": "美容项目" } },
+    { "path": "pages/project/detail", "style": { "navigationBarTitleText": "项目详情" } },
+    { "path": "pages/beautician/list", "style": { "navigationBarTitleText": "美容师" } },
+    { "path": "pages/beautician/detail", "style": { "navigationBarTitleText": "美容师详情" } },
+    { "path": "pages/order/booking", "style": { "navigationBarTitleText": "选择预约" } },
+    { "path": "pages/address/list", "style": { "navigationBarTitleText": "地址管理" } },
+    { "path": "pages/address/edit", "style": { "navigationBarTitleText": "编辑地址" } },
+    { "path": "pages/order/confirm", "style": { "navigationBarTitleText": "确认订单" } },
+    { "path": "pages/pay/index", "style": { "navigationBarTitleText": "支付" } },
+    { "path": "pages/pay/result", "style": { "navigationBarTitleText": "支付结果" } },
+    { "path": "pages/discover/detail", "style": { "navigationBarTitleText": "内容详情" } },
+    { "path": "pages/order/list", "style": { "navigationBarTitleText": "我的订单" } },
+    { "path": "pages/order/detail", "style": { "navigationBarTitleText": "订单详情" } },
+    { "path": "pages/order/refund", "style": { "navigationBarTitleText": "申请售后" } },
+    { "path": "pages/order/comment", "style": { "navigationBarTitleText": "评价" } },
+    { "path": "pages/mine/comment", "style": { "navigationBarTitleText": "我的评价" } },
+    { "path": "pages/mine/coupon", "style": { "navigationBarTitleText": "优惠券" } },
+    { "path": "pages/message/list", "style": { "navigationBarTitleText": "消息中心" } },
+    { "path": "pages/service/complaint", "style": { "navigationBarTitleText": "客服与投诉" } },
+    { "path": "pages/mine/setting", "style": { "navigationBarTitleText": "设置" } },
+    { "path": "pages/safety/index", "style": { "navigationBarTitleText": "安全中心" } }
+  ],
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^u-(.*)": "uview-plus/components/u-$1/u-$1.vue",
+      "^up-(.*)": "uview-plus/components/u-$1/u-$1.vue"
+    }
+  },
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarBackgroundColor": "#faf7f7",
+    "backgroundColor": "#faf7f7"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#d9a4a4",
+    "backgroundColor": "#ffffff",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "首页" },
+      { "pagePath": "pages/discover/index", "text": "发现" },
+      { "pagePath": "pages/mine/index", "text": "我的" }
+    ]
+  }
+}

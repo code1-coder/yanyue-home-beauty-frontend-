@@ -1,0 +1,13 @@
+{
+  "city": "杭州",
+  "categories": ["面部护理", "美甲美睫", "身体护理"],
+  "projects": [
+    { "id": "p1", "category": "面部护理", "name": "舒缓补水护理", "price": 268, "durationMinutes": 60, "description": "清洁与补水护理", "cautions": "敏感肌请提前告知", "audience": "适合需要基础补水护理的人群" },
+    { "id": "p2", "category": "美甲美睫", "name": "轻奢美甲", "price": 198, "durationMinutes": 90, "description": "基础修甲与单色护理", "cautions": "如有甲面损伤请提前告知", "audience": "适合日常美甲需求" },
+    { "id": "p3", "category": "身体护理", "name": "肩颈舒缓", "price": 328, "durationMinutes": 90, "description": "肩颈放松护理", "cautions": "孕期及特殊身体状况请先咨询", "audience": "适合久坐人群" }
+  ],
+  "beauticians": [
+    { "id": "b1", "name": "林老师", "rating": 4.9, "sales": 128, "distanceKm": 3.2, "radiusKm": 5, "visitFee": 30, "bio": "专注面部护理与轻美容", "qualifications": ["实名已验", "健康证已验", "美容师证已验"], "projectIds": ["p1", "p2"] },
+    { "id": "b2", "name": "周老师", "rating": 4.8, "sales": 86, "distanceKm": 7.1, "radiusKm": 5, "visitFee": 40, "bio": "擅长身体舒缓与基础护理", "qualifications": ["实名已验", "健康证已验", "美容师证已验"], "projectIds": ["p1", "p3"] }
+  ]
+}
