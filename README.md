@@ -20,6 +20,22 @@
 
 **文档索引**：[docs/README.md](docs/README.md)。**共通业务规则**：[业务规则与跨端流程](docs/common/业务规则与跨端流程.md)（抽成、排班、支付结算、提现、状态机、非功能要求及页面流转）。
 
+### 后端实现进度
+
+已完成 Phase 0 后端规范文档和第一阶段 `apps/ruoyi-vue-pro/yudao-module-beauty` 模块骨架：
+
+- `docs/backend/接口契约规范.md`
+- `docs/backend/第三方接入方案.md`
+- `docs/backend/数据库表设计草案.md`
+- `docs/backend/待产品确认事项.md`
+- `yudao-module-beauty-api` / `yudao-module-beauty-biz` Maven 模块
+- 平台标准项目管理后台 CRUD
+- 服务者项目配置与个性化价格接口
+- `beauty_provider`、`beauty_service_project`、`beauty_provider_project` 等核心表 DDL
+- 服务者接口通过当前登录会员解析 `providerId`，不信任客户端传入身份
+
+beauty 模块已通过 `mvn compile -pl yudao-module-beauty -am -DskipTests`。排班、服务订单履约、抽成结算、提现和管理后台页面仍按计划逐阶段实现。
+
 **原始资料**：[服务产品需求文档（PRD）.md](docs/服务产品需求文档（PRD）.md)（V1.0，2026-09-24，草案）与[原型整体结构.md](docs/原型整体结构.md)。拆分文件保留各端需求与原型原文；接口清单是从原文功能拆出的待设计能力，不是已发布接口文档。产品功能、页面及优先级以原始资料为准；当前技术规划不覆盖原始微信/支付宝支付 P0 或 App 兼容要求，平台适配和交付边界须另行确认。
 
 ## 业务主线
