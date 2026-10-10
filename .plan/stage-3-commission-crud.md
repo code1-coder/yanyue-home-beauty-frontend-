@@ -17,11 +17,11 @@ here; a copy is what drifts. -->
 
 ## Steps
 
-- [ ] DDL：在 `beauty_init.sql` 增加抽成模板表、服务者独立抽成表（若不存在）。模板需支持：名称、比例、是否默认、城市/分类条件、生效时间、优先级、状态。独立抽成：`provider_id`、比例、生效区间、状态。金额相关比例用明确单位（建议万分比整数或小数，选定后写入 Frozen decisions）。
-- [ ] 后端 `BeautyCommissionTemplateController`：标准 CRUD + page。路径 `/beauty/commission-template`，权限 `beauty:commission:template`（及 create/update/delete/query 细分，与菜单 SQL 一致）。
-- [ ] 后端 `BeautyProviderCommissionController`：独立抽成 CRUD。路径 `/beauty/provider-commission`，权限 `beauty:provider:commission`。
-- [ ] Service：实现解析方法 `resolveCommissionRate(providerId, categoryId, cityId, at)` —— 独立抽成 > 匹配条件模板 > 默认模板；无默认模板时明确报错，不要静默回落到 `BeautyOrderProperties.defaultCommissionRate`（除非 Frozen decisions 被本阶段修订）。
-- [ ] 管理端：`commission/index.ts` 补真实 request；`views/beauty/commission/template/index.vue` 接 CRUD；`views/beauty/commission/independent/index.vue` 接独立抽成设置。
+- [x] DDL：在 `beauty_init.sql` 增加抽成模板表、服务者独立抽成表（若不存在）。模板需支持：名称、比例、是否默认、城市/分类条件、生效时间、优先级、状态。独立抽成：`provider_id`、比例、生效区间、状态。金额相关比例用明确单位（建议万分比整数或小数，选定后写入 Frozen decisions）。
+- [x] 后端 `BeautyCommissionTemplateController`：标准 CRUD + page。路径 `/beauty/commission-template`，权限 `beauty:commission:template`（及 create/update/delete/query 细分，与菜单 SQL 一致）。
+- [x] 后端 `BeautyProviderCommissionController`：独立抽成 CRUD。路径 `/beauty/provider-commission`，权限 `beauty:provider:commission`。
+- [x] Service：实现解析方法 `resolveCommissionRate(providerId, categoryId, cityId, at)` —— 独立抽成 > 匹配条件模板 > 默认模板；无默认模板时明确报错，不要静默回落到 `BeautyOrderProperties.defaultCommissionRate`（除非 Frozen decisions 被本阶段修订）。
+- [x] 管理端：`commission/index.ts` 补真实 request；`views/beauty/commission/template/index.vue` 接 CRUD；`views/beauty/commission/independent/index.vue` 接独立抽成设置。
 
 <!-- Checkboxes are the resume mechanism: a session that stops mid-stage marks
 the row `doing`, ticks the boxes it finished, and writes a handoff note in the

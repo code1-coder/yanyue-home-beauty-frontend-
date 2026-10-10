@@ -18,7 +18,7 @@ protocol, finish protocol).
 | S0a 跨端 API 契约冻结与移动端基础设施 | done | yes | 2026-10-10 | 两端 typecheck、18/22 项测试和微信小程序构建均通过；验收证据见下方 |
 | S1 资质/提现/退款分页 | done | 2026-10-10 | 后端编译 23/23 模块成功；管理端构建成功 |
 | S2 结算与支付流水接口 | done | yes | 2026-10-10 | 后端编译 23/23 SUCCESS（4.201s）；管理端构建 30.22s 成功 |
-| S3 抽成模板 CRUD | todo | — | — | — |
+| S3 抽成模板 CRUD | done | 2026-10-10 | yes | 后端编译与管理端构建通过；解析优先级已落地；阶段 PR #7 squash 合入 |
 | S4 消费者下单与支付单 | todo | — | — | — |
 | S5 支付回调与排班锁定 | todo | — | — | — |
 | S6 结算生成与退款冲正 | todo | — | — | — |
@@ -54,7 +54,11 @@ block per stage; sessions read only the blocks of their `depends` stages.
 已从 git stash 恢复结算/订单完整源码（`stash@{0}^3`、`833e9ae0e8` 等 commit），补齐 `BeautySettlementAdminController`（page/get，注入已有 Service）和 `BeautyPaymentAdminController`（`selectPaymentPage` 查询 `pay_order_id` 非空订单）；管理端 `src/api/beauty/finance/index.ts` 补 `getSettlementPage`/`getPaymentPage`，`views/beauty/finance/{settlement,payment}/index.vue` 接真实分页，金额 `/100` 展示元。`beauty_settlement` DDL 已补入 `sql/mysql/beauty_init.sql`。验收：后端 `mvn compile -pl yudao-module-beauty/yudao-module-beauty-biz -am -DskipTests` 输出 `[INFO] Reactor Summary: ... BUILD SUCCESS [INFO] Total time:  4.201 s`（2026-10-10T23:31:31+08:00）；管理端 `pnpm build:local` 输出 `✓ built in 30.22s`；`pnpm ts:check` 仍是既有基线 `ref`/`computed` 等自动导入错误，与 S0/S1 一致。`BeautyServiceOrderMapper.selectPaymentPage` 使用 `.isNotNull()` + `.like/.eq` 手动 null 检查以避免 wrapper 类型冲突。支付流水无专用表，以订单 `payOrderId`/`payTime`/`payPrice` 为准。
 
 ### S3 抽成模板 CRUD
-_(empty)_
+已完成抽成模板、服务者独立抽成的 DDL、DO/Mapper/VO、Service 和管理端 Controller。解析优先级固定为独立抽成 > 条件模板 > 默认模板；无启用默认模板时抛出 `COMMISSION_DEFAULT_TEMPLATE_REQUIRED`，未回落到旧配置。默认模板启用状态唯一校验，比例为百分比 `decimal(5,2)`，菜单 SQL 与路由/API/两页 CRUD 已接通。
+
+验收证据（2026-10-10）：后端在 `apps/ruoyi-vue-pro` 执行 `mvn compile -pl yudao-module-beauty/yudao-module-beauty-biz -am -DskipTests`，Reactor 23/23 SUCCESS，`yudao-module-beauty-biz SUCCESS`，`BUILD SUCCESS`，总耗时 4.131s。管理端 `pnpm build:local` 成功，`built in 32.31s`。`pnpm ts:check` 失败：新增 commission 两页仅报自动导入符号 `useMessage/ref/reactive/nextTick/onMounted`，其余为既有 `wms` 等目录同类错误；`pnpm lint` 失败为既有非 Beauty 文件 22 个 stylelint 顺序/空行错误。解析单测已添加 `BeautyCommissionServiceImplTest`，覆盖四种优先级/无默认路径；直接模块测试因 worktree 未安装 reactor 所需本地 SNAPSHOT 依赖而无法启动（独立执行时报 `Could not find artifact ... in aliyunmaven`），编译验收已通过。
+
+阶段 PR #7 已 squash 合入 `plan-beauty-p0`（merge commit `5463541`）。
 
 ### S4 消费者下单与支付单
 _(empty)_
