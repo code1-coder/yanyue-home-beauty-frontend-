@@ -19,12 +19,12 @@ here; a copy is what drifts. -->
 
 ## Steps
 
-- [ ] 后端 `BeautyQualificationAdminController`：补 `GET /page`、`GET /get`（路径已是 `/beauty/qualification`）。Service 层分页查询。权限 `beauty:audit:qualification`。PageReqVO 继承 `PageParam`。
-- [ ] 后端 `BeautyWithdrawAdminController`：补 `GET /page`、`GET /get`（`/beauty/withdraw`）。权限 `beauty:audit:withdraw`（与现有 approve/reject 一致）。
-- [ ] 后端 `BeautyRefundAdminController`：补 `GET /page`、`GET /get`（`/beauty/refund`）。权限与现有审核注解对齐（当前为 `beauty:order:refund`；若改为 `beauty:finance:refund` 以匹配前端路由，必须同步改 `@PreAuthorize`、菜单 SQL 和 `v-hasPermi`，并在 Frozen decisions 记下）。
-- [ ] 管理端：`views/beauty/audit/qualification/index.vue` 接 `getQualificationAuditPage`（API 已指向 `/beauty/qualification/page`）。
-- [ ] 管理端：`views/beauty/audit/withdraw/index.vue` 接真实分页并启用已有审核按钮（approve/reject API 已存在）。
-- [ ] 管理端：`views/beauty/finance/refund/index.vue` 接真实分页；在 `src/api/beauty/finance/index.ts` 补上请求函数（当前文件只有类型、没有 request）。金额展示用元（`/ 100`）。
+- [x] 后端 `BeautyQualificationAdminController`：补 `GET /page`、`GET /get`（路径已是 `/beauty/qualification`）。Service 层分页查询。权限 `beauty:audit:qualification`。PageReqVO 继承 `PageParam`。
+- [x] 后端 `BeautyWithdrawAdminController`：补 `GET /page`、`GET /get`（`/beauty/withdraw`）。权限 `beauty:audit:withdraw`（与现有 approve/reject 一致）。
+- [x] 后端 `BeautyRefundAdminController`：补 `GET /page`、`GET /get`（`/beauty/refund`）。权限与现有审核注解对齐（当前为 `beauty:order:refund`；若改为 `beauty:finance:refund` 以匹配前端路由，必须同步改 `@PreAuthorize`、菜单 SQL 和 `v-hasPermi`，并在 Frozen decisions 记下）。
+- [x] 管理端：`views/beauty/audit/qualification/index.vue` 接 `getQualificationAuditPage`（API 已指向 `/beauty/qualification/page`）。
+- [x] 管理端：`views/beauty/audit/withdraw/index.vue` 接真实分页并启用已有审核按钮（approve/reject API 已存在）。
+- [x] 管理端：`views/beauty/finance/refund/index.vue` 接真实分页；在 `src/api/beauty/finance/index.ts` 补上请求函数（当前文件只有类型、没有 request）。金额展示用元（`/ 100`）。
 
 <!-- Checkboxes are the resume mechanism: a session that stops mid-stage marks
 the row `doing`, ticks the boxes it finished, and writes a handoff note in the
