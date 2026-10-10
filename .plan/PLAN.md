@@ -87,6 +87,7 @@ stage (Operating protocol, finish step 3).
 - **统一响应**：`{ code: 0, data: {}, msg: "操作成功" }`；分页为 `{ total, list }`；状态和错误码使用稳定枚举值，不使用中文文案作为协议值，前端单独维护展示映射。
 - **财务规则**：T+7 结算；余额严格大于 1 元才能提现；上门费参与抽成；退款冲正按比例冲减平台抽成和服务者收入；商城订单与服务订单保持独立的支付、履约和结算状态机。
 - **两端基础设施**：`apps/consumer/platform/http/` 和 `apps/provider/platform/http/` 封装 `uni.request`、CommonResult/分页解包、Bearer token、401 刷新、登录守卫、统一错误；`apps/consumer/features/services.ts` 和 `apps/provider/features/services.ts` 保持为页面唯一业务入口，但实现从 mock 替换为真实 HTTP adapter。
+- **会员认证契约（S0a）**：短信登录调用 `POST /member/auth/sms-login`，请求字段为 `mobile`、`code`，短信场景使用 `MEMBER_LOGIN` 的稳定值 `1`；微信小程序登录调用 `POST /member/auth/weixin-mini-app-login`，请求字段为 `phoneCode`、`loginCode`、`state`；令牌响应字段为 `userId`、`accessToken`、`refreshToken`、`expiresTime`、可选 `openid`；刷新调用 `POST /member/auth/refresh-token?refreshToken={refreshToken}`。前端只持久化认证令牌和过期信息，不把客户端 `providerId` 当作授权依据。
 
 技术约束：
 
