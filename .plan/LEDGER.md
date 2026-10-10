@@ -17,7 +17,7 @@ protocol, finish protocol).
 | S0 项目分类 CRUD 与菜单 SQL | done | 2026-10-10 | 后端编译通过；前端构建通过，类型检查与 lint 被既有基线错误阻塞 |
 | S0a 跨端 API 契约冻结与移动端基础设施 | done | yes | 2026-10-10 | 两端 typecheck、18/22 项测试和微信小程序构建均通过；验收证据见下方 |
 | S1 资质/提现/退款分页 | done | 2026-10-10 | 后端编译 23/23 模块成功；管理端构建成功 |
-| S2 结算与支付流水接口 | todo | — | — | — |
+| S2 结算与支付流水接口 | doing | — | 2026-10-10 | 阻塞：结算/订单/支付源文件未在 S1 基线提交，只有旧 target class；需先恢复源代码 |
 | S3 抽成模板 CRUD | todo | — | — | — |
 | S4 消费者下单与支付单 | todo | — | — | — |
 | S5 支付回调与排班锁定 | todo | — | — | — |
@@ -51,7 +51,7 @@ block per stage; sessions read only the blocks of their `depends` stages.
 已补齐三张业务表（`beauty_qualification`、`beauty_withdraw`、`beauty_refund`）及 DO/Mapper/Service/Controller 分页与详情接口。后端路径：`/beauty/qualification`、`/beauty/withdraw`、`/beauty/refund`；权限码分别为 `beauty:audit:qualification`、`beauty:audit:withdraw`、`beauty:finance:refund`。管理端新增 `src/api/beauty/audit/index.ts`、`src/api/beauty/finance/index.ts` 及三张分页页面，金额展示用元（/ 100）。退款查询权限选择 `beauty:finance:refund` 已记入 PLAN.md Frozen decisions。验收：后端 `mvn compile -pl yudao-module-beauty/yudao-module-beauty-biz -am -DskipTests` 输出 `[INFO] Reactor Summary for yudao-dependencies 2.3.0-snapshot: [INFO] yudao-dependencies ................................. SUCCESS [  0.001 s] ... [INFO] yudao-module-beauty-biz ............................ SUCCESS [  0.943 s] [INFO] BUILD SUCCESS [INFO] Total time:  32.809 s`；管理端 `pnpm build:local` 输出 `✓ built in 45.71s`；`pnpm ts:check` 和 `pnpm lint` 失败属既有基线问题（ref/reactive 等自动导入符号错误、既有非 Beauty 文件样式问题，与 S0 一致）。
 
 ### S2 结算与支付流水接口
-_(empty)_
+handoff（2026-10-10）：未改业务代码。当前 `apps/ruoyi-vue-pro` SHA `be2741c` 只有资质/提现/退款查询源码，没有 `BeautySettlementServiceImpl`、`BeautySettlementDO`、`BeautySettlementMapper`、`BeautyServiceOrderDO`/`Mapper`、`beauty_settlement` SQL。`target/classes` 里有旧 class（含 `processSettlement()`、`getSettlementPage()`、`payOrderId`），但源文件未纳入 git。stage 明确要求注入已有 Service、不重写 `processSettlement()`、支付流水以已支付订单 `pay_order_id` 为准，因此不能凭 class 反编译重写结算逻辑或新造订单表。恢复来源后从 Steps 第一项继续：`GET /beauty/settlement/page|get`（`beauty:finance:settlement`）、`GET /beauty/payment/page`（`beauty:finance:payment`），再接管理端 `src/api/beauty/finance/index.ts` 与 `views/beauty/finance/{settlement,payment}/index.vue`。S2 worktree 路径 `../yanyue-home-beauty-s2`，分支 `plan-beauty-p0-s2`。为进入 worktree 曾复制嵌套仓库；不要提交 gitlink dirty。
 
 ### S3 抽成模板 CRUD
 _(empty)_
