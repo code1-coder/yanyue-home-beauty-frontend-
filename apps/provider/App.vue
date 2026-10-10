@@ -1,4 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onLaunch, onShow } from '@dcloudio/uni-app'
+import { restoreSession } from './platform/guard'
+onLaunch(() => { restoreSession() })
+onShow(() => { restoreSession() })
+</script>
 <template><view /></template>
 <style lang="scss">
 @import 'uview-plus/index.scss';

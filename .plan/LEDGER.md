@@ -15,7 +15,7 @@ protocol, finish protocol).
 | Stage | Status | Verified | Date | Result |
 |---|---|---|---|---|
 | S0 项目分类 CRUD 与菜单 SQL | done | 2026-10-10 | 后端编译通过；前端构建通过，类型检查与 lint 被既有基线错误阻塞 |
-| S0a 跨端 API 契约冻结与移动端基础设施 | todo | — | — | — |
+| S0a 跨端 API 契约冻结与移动端基础设施 | doing | yes | 2026-10-10 | 两端 typecheck、18/22 项测试和微信小程序构建均通过；验收证据见下方 |
 | S1 资质/提现/退款分页 | done | 2026-10-10 | 后端编译 23/23 模块成功；管理端构建成功 |
 | S2 结算与支付流水接口 | todo | — | — | — |
 | S3 抽成模板 CRUD | todo | — | — | — |
@@ -36,7 +36,16 @@ block per stage; sessions read only the blocks of their `depends` stages.
 已完成分类 DO/Mapper/Service/Controller、父分类校验和项目引用保护；管理端分类 API、列表/表单页面、Beauty 路由和项目表单分类下拉已接入。`beauty_init.sql` 已补充 Beauty 一级菜单及服务者、项目/分类、订单、审核、财务、抽成菜单与权限节点；错误码编号冲突已修复。验收：在 S0 worktree `apps/ruoyi-vue-pro` 执行 `mvn -f apps/ruoyi-vue-pro/pom.xml compile -pl yudao-module-beauty/yudao-module-beauty-biz -am -DskipTests`，Reactor 23/23 SUCCESS，built in 3.499s。管理端 Node.js `v20.20.1`，使用 nvm 中 pnpm `12.10.1`：`pnpm build:local` 成功（built in 51.45s）；`pnpm ts:check` 失败，Beauty 文件仅报告 `ref`/`reactive`/`useMessage`/`nextTick` 等自动导入符号未识别，与仓库既有页面同类型；`pnpm lint` 报告 22 个样式顺序/空行错误，全部位于既有非 Beauty 文件。
 
 ### S0a 跨端 API 契约冻结与移动端基础设施
-_(empty)_
+已完成 Frozen decisions 增量：真实后端认证契约为 `/member/auth/sms-login`、`/member/auth/weixin-mini-app-login`、`/member/auth/refresh-token`；SMS 登录只发送 `mobile`、`code`，`scene=1` 仅用于发送验证码接口；微信登录发送 `phoneCode`、`loginCode`、非空 `state`。Beauty 当前仅有 `/app-api/beauty/provider/project/*`，订单/退款 Controller 尚未落地，本阶段不编造领域 DTO。
+
+已完成两端 `platform/http/`、session、guard、mapper 和认证 adapter：请求自动附加 Bearer token，写请求生成 `X-Idempotent-Key`，成功响应解包 `CommonResult`，支持 `{ total, list }` 分页；401 通过共享 refresh lock 只刷新一次，刷新失败清理 session 并 `reLaunch` 到登录页；网络错误与后端 `code != 0` 分开映射。`features/services.ts` 仍是页面唯一业务入口，非本阶段领域能力继续使用 mock，页面未直接读取 storage。
+
+验收证据（2026-10-10）：
+- Consumer：`npm run typecheck` 通过；`npm test` 为 5 个测试文件、18 项测试全部通过；`npm run build:mp-weixin` 输出 `DONE Build complete.`。
+- Provider：`npm run typecheck` 通过；`npm test` 为 5 个测试文件、22 项测试全部通过；`npm run build:mp-weixin` 输出 `DONE Build complete.`。
+- HTTP 测试覆盖 Bearer header、写请求幂等键、CommonResult/分页解包、401 单次刷新及刷新失败清 session/跳转登录；mapper 测试覆盖分↔元和毫秒时间戳↔日期。两端构建仅出现既有 Sass `legacy-js-api` 与 `@import` 弃用警告，不影响成功结果。
+- 验证期间为两个 app 临时建立指向主 clone `node_modules` 的符号链接，构建完成后已删除；未将依赖目录或构建产物纳入改动。
+- 开 PR 前已将 `origin/plan-beauty-p0`（含 S1 squash merge `#5`）merge 进本阶段分支；仅 `.plan/LEDGER.md` 冲突，已保留双方行（S0a `doing` + S1 `done`）。re-verify 仍通过：consumer typecheck + 18 tests + `DONE Build complete.`；provider typecheck + 22 tests + `DONE Build complete.`。
 
 ### S1 资质/提现/退款分页
 已补齐三张业务表（`beauty_qualification`、`beauty_withdraw`、`beauty_refund`）及 DO/Mapper/Service/Controller 分页与详情接口。后端路径：`/beauty/qualification`、`/beauty/withdraw`、`/beauty/refund`；权限码分别为 `beauty:audit:qualification`、`beauty:audit:withdraw`、`beauty:finance:refund`。管理端新增 `src/api/beauty/audit/index.ts`、`src/api/beauty/finance/index.ts` 及三张分页页面，金额展示用元（/ 100）。退款查询权限选择 `beauty:finance:refund` 已记入 PLAN.md Frozen decisions。验收：后端 `mvn compile -pl yudao-module-beauty/yudao-module-beauty-biz -am -DskipTests` 输出 `[INFO] Reactor Summary for yudao-dependencies 2.3.0-snapshot: [INFO] yudao-dependencies ................................. SUCCESS [  0.001 s] ... [INFO] yudao-module-beauty-biz ............................ SUCCESS [  0.943 s] [INFO] BUILD SUCCESS [INFO] Total time:  32.809 s`；管理端 `pnpm build:local` 输出 `✓ built in 45.71s`；`pnpm ts:check` 和 `pnpm lint` 失败属既有基线问题（ref/reactive 等自动导入符号错误、既有非 Beauty 文件样式问题，与 S0 一致）。
