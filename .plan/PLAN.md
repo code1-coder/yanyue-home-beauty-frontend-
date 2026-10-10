@@ -63,6 +63,7 @@ stage (Operating protocol, finish step 3).
 - **结算周期**：T+7 生成结算单，退款冲正按比例冲减
 - **API 路径**：管理端 `/beauty/*`（由 axios 统一加前缀），不调用 `/app-api/beauty/*`
 - **权限标识**：与后端 `@PreAuthorize` 一致，页面按钮使用 `v-hasPermi`
+- **S1 退款查询权限**：退款管理端查询使用 `beauty:finance:refund`，Controller、菜单 SQL 与前端路由保持一致；退款审核/冲正动作仍由后续阶段实现。
 
 本计划新增（后端领域）：
 

@@ -16,7 +16,7 @@ protocol, finish protocol).
 |---|---|---|---|---|
 | S0 项目分类 CRUD 与菜单 SQL | done | 2026-10-10 | 后端编译通过；前端构建通过，类型检查与 lint 被既有基线错误阻塞 |
 | S0a 跨端 API 契约冻结与移动端基础设施 | doing | yes | 2026-10-10 | 两端 typecheck、18/22 项测试和微信小程序构建均通过；验收证据见下方 |
-| S1 资质/提现/退款分页 | todo | — | — | — |
+| S1 资质/提现/退款分页 | done | 2026-10-10 | 后端编译 23/23 模块成功；管理端构建成功 |
 | S2 结算与支付流水接口 | todo | — | — | — |
 | S3 抽成模板 CRUD | todo | — | — | — |
 | S4 消费者下单与支付单 | todo | — | — | — |
@@ -47,7 +47,7 @@ block per stage; sessions read only the blocks of their `depends` stages.
 - 验证期间为两个 app 临时建立指向主 clone `node_modules` 的符号链接，构建完成后已删除；未将依赖目录或构建产物纳入改动。
 
 ### S1 资质/提现/退款分页
-_(empty)_
+已补齐三张业务表（`beauty_qualification`、`beauty_withdraw`、`beauty_refund`）及 DO/Mapper/Service/Controller 分页与详情接口。后端路径：`/beauty/qualification`、`/beauty/withdraw`、`/beauty/refund`；权限码分别为 `beauty:audit:qualification`、`beauty:audit:withdraw`、`beauty:finance:refund`。管理端新增 `src/api/beauty/audit/index.ts`、`src/api/beauty/finance/index.ts` 及三张分页页面，金额展示用元（/ 100）。退款查询权限选择 `beauty:finance:refund` 已记入 PLAN.md Frozen decisions。验收：后端 `mvn compile -pl yudao-module-beauty/yudao-module-beauty-biz -am -DskipTests` 输出 `[INFO] Reactor Summary for yudao-dependencies 2.3.0-snapshot: [INFO] yudao-dependencies ................................. SUCCESS [  0.001 s] ... [INFO] yudao-module-beauty-biz ............................ SUCCESS [  0.943 s] [INFO] BUILD SUCCESS [INFO] Total time:  32.809 s`；管理端 `pnpm build:local` 输出 `✓ built in 45.71s`；`pnpm ts:check` 和 `pnpm lint` 失败属既有基线问题（ref/reactive 等自动导入符号错误、既有非 Beauty 文件样式问题，与 S0 一致）。
 
 ### S2 结算与支付流水接口
 _(empty)_
