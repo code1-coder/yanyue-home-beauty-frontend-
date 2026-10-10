@@ -33,7 +33,7 @@ As-built notes, acceptance evidence, gotchas, handoff notes, follow-ups. One
 block per stage; sessions read only the blocks of their `depends` stages.
 
 ### S0 项目分类 CRUD 与菜单 SQL
-已完成分类 DO/Mapper/Service/Controller、父分类校验和项目引用保护；管理端分类 API、列表/表单页面、Beauty 路由和项目表单分类下拉已接入。`beauty_init.sql` 已补充 Beauty 一级菜单及服务者、项目/分类、订单、审核、财务、抽成菜单与权限节点；错误码编号冲突已修复。验证：在 `apps/ruoyi-vue-pro` 执行 `mvn compile -pl yudao-module-beauty/yudao-module-beauty-biz -am -DskipTests` 成功（111 个源文件编译成功，存在既有 deprecated API 警告）。管理端使用 Node.js `v20.20.1`、pnpm `9.15.0`：`pnpm build:local` 成功（9299 modules transformed，built in 30.86s）；`pnpm ts:check` 失败，但仅报告仓库既有页面和 Beauty 页面未导入的自动导入符号，Beauty API 模块缺失问题已修复；`pnpm lint` 失败于 22 个既有非 Beauty 样式顺序/空行错误。
+已完成分类 DO/Mapper/Service/Controller、父分类校验和项目引用保护；管理端分类 API、列表/表单页面、Beauty 路由和项目表单分类下拉已接入。`beauty_init.sql` 已补充 Beauty 一级菜单及服务者、项目/分类、订单、审核、财务、抽成菜单与权限节点；错误码编号冲突已修复。验收：在 S0 worktree 的 `apps/ruoyi-vue-pro` 执行 `mvn -f apps/ruoyi-vue-pro/pom.xml compile -pl yudao-module-beauty/yudao-module-beauty-biz -am -DskipTests` 成功，Reactor 中 `yudao-module-beauty-biz` 为 `SUCCESS`。管理端当前 Node.js `v20.20.1`，但 `pnpm -v` 因 Corepack 访问 `registry.npmjs.org` 时 `ECONNRESET` 失败，且 worktree 没有 `node_modules`，所以本次未能执行 `pnpm ts:check`、`pnpm lint`、`pnpm build:local`；待网络恢复后重跑。
 
 ### S0a 跨端 API 契约冻结与移动端基础设施
 _(empty)_
