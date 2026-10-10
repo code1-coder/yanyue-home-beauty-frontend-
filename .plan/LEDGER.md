@@ -14,7 +14,7 @@ protocol, finish protocol).
 
 | Stage | Status | Verified | Date | Result |
 |---|---|---|---|---|
-| S0 项目分类 CRUD 与菜单 SQL | doing | 2026-10-09 | 后端编译通过；前端检查受 Node.js v16.20.2 阻塞 |
+| S0 项目分类 CRUD 与菜单 SQL | doing | 2026-10-10 | 后端编译通过；前端构建通过，类型检查与 lint 被既有基线错误阻塞 |
 | S0a 跨端 API 契约冻结与移动端基础设施 | todo | — | — | — |
 | S1 资质/提现/退款分页 | todo | — | — | — |
 | S2 结算与支付流水接口 | todo | — | — | — |
@@ -33,7 +33,7 @@ As-built notes, acceptance evidence, gotchas, handoff notes, follow-ups. One
 block per stage; sessions read only the blocks of their `depends` stages.
 
 ### S0 项目分类 CRUD 与菜单 SQL
-已完成分类 DO/Mapper/Service/Controller、父分类校验和项目引用保护；管理端分类 API、列表/表单页面、Beauty 路由和项目表单分类下拉已接入。`beauty_init.sql` 已补充 Beauty 一级菜单及服务者、项目/分类、订单、审核、财务、抽成菜单与权限节点；错误码编号冲突已修复。验证：在 `apps/ruoyi-vue-pro` 执行 `mvn compile -pl yudao-module-beauty/yudao-module-beauty-biz -am -DskipTests` 成功（111 个源文件编译成功，存在既有 deprecated API 警告）。管理端 `pnpm ts:check`、`pnpm lint`、`pnpm build:local` 均未启动，原因是本机 Node.js `v16.20.2`，当前 pnpm 要求至少 `v18.12`；升级 Node 后需重新执行三项前端验收。
+已完成分类 DO/Mapper/Service/Controller、父分类校验和项目引用保护；管理端分类 API、列表/表单页面、Beauty 路由和项目表单分类下拉已接入。`beauty_init.sql` 已补充 Beauty 一级菜单及服务者、项目/分类、订单、审核、财务、抽成菜单与权限节点；错误码编号冲突已修复。验收：在 S0 worktree `apps/ruoyi-vue-pro` 执行 `mvn -f apps/ruoyi-vue-pro/pom.xml compile -pl yudao-module-beauty/yudao-module-beauty-biz -am -DskipTests`，Reactor 23/23 SUCCESS，built in 3.499s。管理端 Node.js `v20.20.1`，使用 nvm 中 pnpm `12.10.1`：`pnpm build:local` 成功（built in 51.45s）；`pnpm ts:check` 失败，Beauty 文件仅报告 `ref`/`reactive`/`useMessage`/`nextTick` 等自动导入符号未识别，与仓库既有页面同类型；`pnpm lint` 报告 22 个样式顺序/空行错误，全部位于既有非 Beauty 文件。
 
 ### S0a 跨端 API 契约冻结与移动端基础设施
 _(empty)_
