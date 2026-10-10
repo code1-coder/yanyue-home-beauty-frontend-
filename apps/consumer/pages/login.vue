@@ -1,9 +1,58 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue'
+import { auth } from '../features/services'
 import { notice, tab } from '../shared/navigation'
 import DemoNotice from '../shared/components/DemoNotice.vue'
-const phone = shallowRef(''), code = shallowRef(''), agreed = shallowRef(false)
-function signIn() { if (!agreed.value) return notice('请先阅读并同意协议'); if (!/^1\d{10}$/.test(phone.value) || !code.value) return notice('请填写手机号及验证码'); notice('模拟登录，不进行身份验证'); tab('pages/index/index') }
-function toggle(event: Event) { agreed.value = (event as unknown as { detail: { value: boolean } }).detail.value }
+
+const phone = shallowRef('')
+const code = shallowRef('')
+const agreed = shallowRef(false)
+
+function toggle(event: Event) {
+  agreed.value = (event as unknown as { detail: { value: boolean } }).detail.value
+}
+
+async function signIn() {
+  if (!agreed.value)
+    return notice('请先阅读并同意协议')
+  try {
+    await auth.loginBySms(phone.value, code.value)
+    tab('pages/index/index')
+  }
+  catch (error) {
+    notice(error instanceof Error ? error.message : '登录失败')
+  }
+}
+
+async function weixinLogin(event: { detail?: { code?: string; errMsg?: string } }) {
+  if (!agreed.value)
+    return notice('请先阅读并同意协议')
+  const phoneCode = event.detail?.code
+  if (!phoneCode)
+    return notice(event.detail?.errMsg || '未获取到微信手机号授权')
+  try {
+    const login = await uni.login({ provider: 'weixin' })
+    await auth.loginByWeixin(phoneCode, login.code)
+    tab('pages/index/index')
+  }
+  catch (error) {
+    notice(error instanceof Error ? error.message : '微信登录失败')
+  }
+}
 </script>
-<template><view class="screen"><DemoNotice /><view class="section-title">手机号登录</view><view class="panel"><input v-model="phone" class="field" type="number" maxlength="11" placeholder="手机号（请勿输入真实号码）" /><input v-model="code" class="field" type="number" placeholder="验证码（模拟）" /></view><view class="row"><text>已阅读用户协议和隐私政策</text><switch :checked="agreed" color="#187f70" @change="toggle" /></view><button class="action" @click="signIn">模拟登录</button><button class="secondary" @click="notice('微信授权待正式接入')">微信登录（待接入）</button></view></template>
+<template>
+  <view class="screen">
+    <DemoNotice />
+    <view class="section-title">手机号登录</view>
+    <view class="panel">
+      <input v-model="phone" class="field" type="number" maxlength="11" placeholder="手机号" />
+      <input v-model="code" class="field" type="number" placeholder="短信验证码" />
+    </view>
+    <view class="row">
+      <text>已阅读用户协议和隐私政策</text>
+      <switch :checked="agreed" color="#187f70" @change="toggle" />
+    </view>
+    <button class="action" @click="signIn">登录</button>
+    <button class="secondary" open-type="getPhoneNumber" @getphonenumber="weixinLogin">微信登录</button>
+  </view>
+</template>
