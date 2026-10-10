@@ -1,5 +1,6 @@
 <script lang="ts">
-export default { onLaunch() {} }
+import { restoreSession } from './platform/guard'
+export default { onLaunch() { restoreSession() }, onShow() { restoreSession() } }
 </script>
 
 <style lang="scss">
