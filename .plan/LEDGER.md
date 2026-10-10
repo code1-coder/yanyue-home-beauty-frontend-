@@ -18,7 +18,7 @@ protocol, finish protocol).
 | S0a 跨端 API 契约冻结与移动端基础设施 | done | yes | 2026-10-10 | 两端 typecheck、18/22 项测试和微信小程序构建均通过；验收证据见下方 |
 | S1 资质/提现/退款分页 | done | 2026-10-10 | 后端编译 23/23 模块成功；管理端构建成功 |
 | S2 结算与支付流水接口 | todo | — | — | — |
-| S3 抽成模板 CRUD | todo | — | — | — |
+| S3 抽成模板 CRUD | doing | 2026-10-10 | no | 后端编译与管理端构建通过；ts/lint 为既有基线问题，解析单测受独立运行依赖阻塞 |
 | S4 消费者下单与支付单 | todo | — | — | — |
 | S5 支付回调与排班锁定 | todo | — | — | — |
 | S6 结算生成与退款冲正 | todo | — | — | — |
@@ -54,7 +54,11 @@ block per stage; sessions read only the blocks of their `depends` stages.
 _(empty)_
 
 ### S3 抽成模板 CRUD
-_(empty)_
+已完成抽成模板、服务者独立抽成的 DDL、DO/Mapper/VO、Service 和管理端 Controller。解析优先级固定为独立抽成 > 条件模板 > 默认模板；无启用默认模板时抛出 `COMMISSION_DEFAULT_TEMPLATE_REQUIRED`，未回落到旧配置。默认模板启用状态唯一校验，比例为百分比 `decimal(5,2)`，菜单 SQL 与路由/API/两页 CRUD 已接通。
+
+验收证据（2026-10-10）：后端在 `apps/ruoyi-vue-pro` 执行 `mvn compile -pl yudao-module-beauty/yudao-module-beauty-biz -am -DskipTests`，Reactor 23/23 SUCCESS，`yudao-module-beauty-biz SUCCESS`，`BUILD SUCCESS`，总耗时 4.131s。管理端 `pnpm build:local` 成功，`built in 32.31s`。`pnpm ts:check` 失败：新增 commission 两页仅报自动导入符号 `useMessage/ref/reactive/nextTick/onMounted`，其余为既有 `wms` 等目录同类错误；`pnpm lint` 失败为既有非 Beauty 文件 22 个 stylelint 顺序/空行错误。解析单测已添加 `BeautyCommissionServiceImplTest`，覆盖四种优先级/无默认路径；直接模块测试因 worktree 未安装 reactor 所需本地 SNAPSHOT 依赖而无法启动（独立执行时报 `Could not find artifact ... in aliyunmaven`），编译验收已通过。
+
+待 PR 合并后由计划分支完成 `done` 翻转。
 
 ### S4 消费者下单与支付单
 _(empty)_
