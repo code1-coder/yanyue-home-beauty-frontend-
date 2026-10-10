@@ -18,7 +18,7 @@ protocol, finish protocol).
 | S0a 跨端 API 契约冻结与移动端基础设施 | done | yes | 2026-10-10 | 两端 typecheck、18/22 项测试和微信小程序构建均通过；验收证据见下方 |
 | S1 资质/提现/退款分页 | done | 2026-10-10 | 后端编译 23/23 模块成功；管理端构建成功 |
 | S2 结算与支付流水接口 | todo | — | — | — |
-| S3 抽成模板 CRUD | doing | 2026-10-10 | no | 后端编译与管理端构建通过；ts/lint 为既有基线问题，解析单测受独立运行依赖阻塞 |
+| S3 抽成模板 CRUD | done | 2026-10-10 | yes | 后端编译与管理端构建通过；解析优先级已落地；阶段 PR #7 squash 合入 |
 | S4 消费者下单与支付单 | todo | — | — | — |
 | S5 支付回调与排班锁定 | todo | — | — | — |
 | S6 结算生成与退款冲正 | todo | — | — | — |
@@ -58,7 +58,7 @@ _(empty)_
 
 验收证据（2026-10-10）：后端在 `apps/ruoyi-vue-pro` 执行 `mvn compile -pl yudao-module-beauty/yudao-module-beauty-biz -am -DskipTests`，Reactor 23/23 SUCCESS，`yudao-module-beauty-biz SUCCESS`，`BUILD SUCCESS`，总耗时 4.131s。管理端 `pnpm build:local` 成功，`built in 32.31s`。`pnpm ts:check` 失败：新增 commission 两页仅报自动导入符号 `useMessage/ref/reactive/nextTick/onMounted`，其余为既有 `wms` 等目录同类错误；`pnpm lint` 失败为既有非 Beauty 文件 22 个 stylelint 顺序/空行错误。解析单测已添加 `BeautyCommissionServiceImplTest`，覆盖四种优先级/无默认路径；直接模块测试因 worktree 未安装 reactor 所需本地 SNAPSHOT 依赖而无法启动（独立执行时报 `Could not find artifact ... in aliyunmaven`），编译验收已通过。
 
-待 PR 合并后由计划分支完成 `done` 翻转。
+阶段 PR #7 已 squash 合入 `plan-beauty-p0`（merge commit `5463541`）。
 
 ### S4 消费者下单与支付单
 _(empty)_
